@@ -8,6 +8,15 @@ from ctpn import CTPN_Model
 from utils import gen_anchor, transform_bbox, clip_bbox, filter_bbox, nms, TextProposalConnectorOriented
 
 
+def detect_resize(self, img):
+    rs_img, (rh, rw) = resize_image(img)
+    text_boxes = self.detect(rs_img)
+    boxes = text_boxes[:, :8]
+    boxes[:, ::2] /= rw
+    boxes[:, 1::2] /= rh
+    return boxes.astype(dtype=int)
+
+
 def resize_image(img):
     img_size = img.shape
     im_size_min = np.min(img_size[0:2])
@@ -51,7 +60,9 @@ def cptn_to_onnx(weight_path, img):
     model.eval()
 
     # set the right shape for input
-    dummy_input = preprocess_img(img)
+    # mine is (603, 1000, 3)
+    rs_img, (rh, rw) = resize_image(img)
+    dummy_input = preprocess_img(rs_img)
     dummy_output = model(dummy_input)
 
     if dummy_output:
@@ -187,9 +198,9 @@ if __name__ == '__main__':
     IMG_SCALE = 600
     img = '/home/phamson/data/EKYC/CMT_data/CMT_real/CMT_real_3/16_04_04.jpg'
     img = cv2.imread(img)
-    boxes = detect_onnx(img)
-    draw_box(img, boxes)
-    # cptn_to_onnx(weight_path, img)
+    # boxes = detect_onnx(img)
+    # draw_box(img, boxes)
+    cptn_to_onnx(weight_path, img)
 
     # test_onnx(img)
     # detect_ctpn(weight_path, img)
