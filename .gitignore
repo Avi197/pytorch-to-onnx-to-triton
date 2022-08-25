@@ -1,3 +1,3 @@
-.onnx
-.idea/
-/__pycache__/
+*.onnx
+.idea
+__pycache__/
