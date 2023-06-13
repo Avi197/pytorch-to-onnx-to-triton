@@ -5,7 +5,7 @@ import math
 import cv2
 from PIL import Image
 
-from object_model import ResultObject
+from common_utils.object_model import ResultObject
 
 
 def copy_state_dict(state_dict):

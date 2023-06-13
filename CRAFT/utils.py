@@ -1,6 +1,9 @@
 import numpy as np
 import cv2
 import math
+from collections import OrderedDict
+
+from common_utils.imgproc import resize_aspect_ratio
 
 """ auxilary functions """
 
@@ -275,3 +278,22 @@ def adjust_result_coordinates(polys, ratio_w, ratio_h, ratio_net=2):
             if polys[k] is not None:
                 polys[k] *= (ratio_w * ratio_net, ratio_h * ratio_net)
     return polys
+
+
+def resize_img(scale_percent, img):
+    width = int(img.shape[1] * scale_percent)
+    height = int(img.shape[0] * scale_percent)
+    dsize = (width, height)
+    return cv2.resize(img, dsize)
+
+
+def copy_state_dict(state_dict):
+    if list(state_dict.keys())[0].startswith("module"):
+        start_idx = 1
+    else:
+        start_idx = 0
+    new_state_dict = OrderedDict()
+    for k, v in state_dict.items():
+        name = ".".join(k.split(".")[start_idx:])
+        new_state_dict[name] = v
+    return new_state_dict
