@@ -49,7 +49,7 @@ def test_inference(img_in, img_out, onnx_model_file):
 #
 if __name__ == '__main__':
     yolo_path = '/opt/github/pytorch-to-onnx/best.pt'
-    onnx_path = '/opt/github/pytorch-to-onnx/models/quality_onnx.onnx'
+    onnx_path = '/models/quality_onnx.onnx'
     onnx_after = '/opt/github/pytorch-to-onnx/models/quality_onnx_pre_post.onnx'
     add_pre_post_processing(yolo_path, onnx_path, onnx_after)
 

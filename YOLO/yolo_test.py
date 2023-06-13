@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 
 # Load the YOLOv8 model
-model = YOLO('/opt/github/pytorch-to-onnx/temp/quality_yolo.onnx')
+model = YOLO('/temp/quality_yolo.onnx')
 
 # results = self.model.predict(img, stream=False)                 # run prediction on img
 # for result in results:                                         # iterate results
